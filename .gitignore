@@ -3,6 +3,7 @@
 /.mvn/
 /target/
 /allure-results/
+/reports/
 !.mvn/wrapper/maven-wrapper.jar
 debug.log
 
