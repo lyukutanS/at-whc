@@ -1,5 +1,6 @@
 package ru.softrust.automation.pageObjects;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -32,11 +33,12 @@ public class AuthorizationPage extends BasePage {
     private WebElement authHeader;
 
     public AuthorizationPage() {
+
     }
 
     public AuthorizationPage whenOpen() {
-        PageFactory.initElements(driver, this);
         isLoaded();
+        PageFactory.initElements(driver, this);
         return this;
     }
 
@@ -45,9 +47,10 @@ public class AuthorizationPage extends BasePage {
         return whenOpen();
     }
 
+    @SneakyThrows
     public AuthorizationPage authenticationInSystem(String organisationAuth) {
-        log.info("Авторизация с " + adminlogin + " логином" + " и " + adminpassword + " паролем");
-        whenReadyTypeIn(loginInput, adminlogin)
+        log.info("Авторизация с " + doctorLogin + " логином" + " и " + adminpassword + " паролем");
+        whenReadyTypeIn(loginInput, doctorLogin)
                 .whenReadyTypeIn(passwordInput, adminpassword)
                 .typeAndSelectChooseList(organisation, organisationAuth, overlay)
                 .clickWhenReady(loginButton)

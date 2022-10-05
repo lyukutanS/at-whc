@@ -4,12 +4,17 @@ import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -22,8 +27,11 @@ public class BasePage {
     @Qualifier("webdriver")
     protected WebDriver driver;
 
-    @Value("${adminlogin}")
-    protected String adminlogin;
+    @Value("${doctorLogin}")
+    protected String doctorLogin;
+
+    @Value("${terapevtLogin}")
+    protected String terapevtLogin;
 
     @Value("${adminpassword}")
     protected String adminpassword;
@@ -33,6 +41,9 @@ public class BasePage {
 
     @Value("${journalPatientUrl}")
     protected String journalPatientUrl;
+
+    @Value("${appointmentRenewalUrl}")
+    protected String appointmentRenewalUrl;
 
     @Autowired
     @Qualifier("timeout")

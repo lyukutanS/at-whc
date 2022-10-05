@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.softrust.automation.pageObjects.AuthorizationPage;
+import ru.softrust.automation.pageObjects.HeaderPage;
+import ru.softrust.automation.pageObjects.MenuPage;
+import ru.softrust.automation.pageObjects.RenewalOfAppointmentPage;
 import ru.softrust.automation.utils.AllureAttachment;
 import ru.softrust.automation.utils.DriverManager;
 
@@ -27,24 +30,40 @@ public class WebElementsInteraction {
 
     @Qualifier("scenario")
     private Scenario scenario;
-
     @Autowired
     private AuthorizationPage authorisationPageObject;
 
+    @Autowired
+    private MenuPage menuPage;
+
+    @Autowired
+    private RenewalOfAppointmentPage renewalOfAppointmentPage;
+
+    @Autowired
+    private HeaderPage headerPage;
+
     @Дано("^переходим на страницу Авторизация$")
     public void goToAuthorisationPage() {
-        authorisationPageObject.openAuth();
+        authorisationPageObject.whenOpen().openAuth();
     }
 
     @Когда("^авторизуемся в системе с огранизацией \"(.*)\"$")
     public void authenticationInSystem(String organisationAuth) {
         authorisationPageObject.authenticationInSystem(organisationAuth);
-
     }
 
-    @И("^переходим в Основное меню$")
-    public void moveToMainMenu() {
-
+    @И("^переходим в Основное меню и выбираем пункт \"(.*)\"$")
+    public void moveToMainMenu(String item) {
+        menuPage.whenOpen().chooseFromListInLeftMenu(item);
     }
 
+    @И("^проверяем, что мы находимся на странице \"(.*)\"$")
+    public void checkMovePage(String item) {
+        switch (item){
+            case "Продление назначений":
+                renewalOfAppointmentPage.whenOpen().checkMoveRenewalOfAppointmentPage(item);
+                headerPage.whenOpen().checkBreadCrumbs(item);
+                break;
+        }
+    }
 }
