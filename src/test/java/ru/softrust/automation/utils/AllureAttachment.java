@@ -31,9 +31,8 @@ public class AllureAttachment {
     }
 
     @Attachment
-    public void logs(String descreption) {
+    public void logs() {
         Allure.addAttachment("Browser log: ", driverManager.getBrowserLogs());
-        Allure.addAttachment("Step log: ", descreption);
         addScreenshot(driverManager.getDriver(), "Screenshot-"+new Date());
     }
 }

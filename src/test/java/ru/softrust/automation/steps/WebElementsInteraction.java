@@ -33,7 +33,6 @@ public class WebElementsInteraction {
     @Дано("^переходим на страницу Авторизация$")
     public void goToAuthorisationPage() {
         authenticationPageObject.open();
-        allure.logs("Перешли на страницу Авторизация");
     }
 
     @И("^переходим в Основное меню$")
