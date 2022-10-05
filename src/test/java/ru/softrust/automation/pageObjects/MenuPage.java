@@ -1,7 +1,6 @@
 package ru.softrust.automation.pageObjects;
 
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -21,7 +20,7 @@ public class MenuPage extends BasePage {
     @FindBy(xpath = "//div[contains(@id, 'ui-id')]/ul/li")
     private List<WebElement> leftMenuItemList;
 
-    public MenuPage(){
+    public MenuPage() {
     }
 
     public MenuPage whenOpen() {
@@ -32,7 +31,7 @@ public class MenuPage extends BasePage {
 
     public MenuPage chooseFromListInLeftMenu(String item) {
         isLoaded();
-        if (leftMenuButton.getAttribute("class").contains("--close")){
+        if (leftMenuButton.getAttribute("class").contains("--close")) {
             clickWhenReady(leftMenuButton);
         }
         WebElement webElement = leftMenuItemList

@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.softrust.automation.pageObjects.AuthorizationPage;
-import ru.softrust.automation.pageObjects.HeaderPage;
-import ru.softrust.automation.pageObjects.MenuPage;
-import ru.softrust.automation.pageObjects.RenewalOfAppointmentPage;
+import ru.softrust.automation.pageObjects.*;
 import ru.softrust.automation.utils.AllureAttachment;
 import ru.softrust.automation.utils.DriverManager;
 
@@ -40,6 +37,9 @@ public class WebElementsInteraction {
     private RenewalOfAppointmentPage renewalOfAppointmentPage;
 
     @Autowired
+    private JournalPatientPage journalPatientPage;
+
+    @Autowired
     private HeaderPage headerPage;
 
     @Дано("^переходим на страницу Авторизация$")
@@ -59,11 +59,20 @@ public class WebElementsInteraction {
 
     @И("^проверяем, что мы находимся на странице \"(.*)\"$")
     public void checkMovePage(String item) {
-        switch (item){
+        switch (item) {
             case "Продление назначений":
                 renewalOfAppointmentPage.whenOpen().checkMoveRenewalOfAppointmentPage(item);
                 headerPage.whenOpen().checkBreadCrumbs(item);
                 break;
+            case "Журнал пациентов":
+                journalPatientPage.whenOpen().checkMoveJournalPatientPage(item);
+                headerPage.whenOpen().checkBreadCrumbs(item);
+                break;
         }
+    }
+
+    @И("^нажимаем на логотип SofTrust$")
+    public void clickLogoApp() {
+        headerPage.whenOpen().clickLogo();
     }
 }

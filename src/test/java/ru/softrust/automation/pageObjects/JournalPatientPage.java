@@ -10,22 +10,21 @@ import static org.junit.Assert.assertTrue;
 
 @Slf4j
 @Component
-public class RenewalOfAppointmentPage extends BasePage {
+public class JournalPatientPage extends BasePage {
 
-    @FindBy(xpath = "//h1[@class = 'base-header']")
+    @FindBy(xpath = "//div[@class = 'patient-journal-header']/h1")
     private WebElement baseHeader;
 
-    public RenewalOfAppointmentPage() {
+    public JournalPatientPage() {
     }
 
-    public RenewalOfAppointmentPage whenOpen() {
+    public JournalPatientPage whenOpen() {
         isLoaded();
-        shouldLocate(appointmentRenewalUrl);
         PageFactory.initElements(driver, this);
         return this;
     }
 
-    public RenewalOfAppointmentPage checkMoveRenewalOfAppointmentPage(String item) {
+    public JournalPatientPage checkMoveJournalPatientPage(String item) {
         assertTrue("Заголовок страницы не соответствует ожидаемому", baseHeader.getText().equalsIgnoreCase(item));
         return this;
     }
