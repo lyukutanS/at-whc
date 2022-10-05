@@ -21,8 +21,4 @@ public class ApplicationOptions {
         return false;
     }
 
-    @Bean(name = "baseurl")
-    public String baseUrl() {
-        return "https://www.dns-shop.ru";
-    }
 }

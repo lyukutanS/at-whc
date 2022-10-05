@@ -1,4 +1,4 @@
-package ru.softrust.automation.pages;
+package ru.softrust.automation.pageObjects;
 
 import lombok.SneakyThrows;
 import org.junit.Assert;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.softrust.automation.utils.AllureAttachment;
 
 import java.time.Duration;
 import java.util.List;
@@ -29,9 +28,11 @@ public class BasePage {
     @Value("${adminpassword}")
     protected String adminpassword;
 
-    @Autowired
-    @Qualifier("baseurl")
-    protected String baseUrl;
+    @Value("${loginUrl}")
+    protected String loginUrl;
+
+    @Value("${journalPatientUrl}")
+    protected String journalPatientUrl;
 
     @Autowired
     @Qualifier("timeout")
@@ -41,7 +42,7 @@ public class BasePage {
         return new Actions(driver);
     }
 
-    private WebDriverWait getWait() {
+    protected WebDriverWait getWait() {
         return new WebDriverWait(driver, timeout);
     }
 
@@ -104,6 +105,12 @@ public class BasePage {
         return this;
     }
 
+    protected BasePage clickWhenVisibility(WebElement element) {
+        getWait().until(ExpectedConditions.visibilityOf(element));
+        element.click();
+        return this;
+    }
+
     protected BasePage doubleClickWhenReady(WebElement element) {
         getWait().until(ExpectedConditions.elementToBeClickable(element));
         actionBuilder().doubleClick(element).build().perform();
@@ -121,13 +128,16 @@ public class BasePage {
         return this;
     }
 
+    @SneakyThrows
+    protected BasePage typeAndSelectChooseList(WebElement input, String text, WebElement choose) {
+        getWait().until(ExpectedConditions.elementToBeClickable(input));
+        input.sendKeys(text);
+        clickWhenVisibility(choose);
+        return this;
+    }
+
     protected String getTextWhenReady(WebElement element) {
         getWait().until(ExpectedConditions.elementToBeClickable(element));
         return element.getText();
     }
-
-    protected void addScreenShootToAllure(String name) {
-        new AllureAttachment().addScreenshot(driver, name);
-    }
-
 }
