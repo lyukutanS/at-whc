@@ -47,7 +47,6 @@ public class AuthorizationPage extends BasePage {
         return whenOpen();
     }
 
-    @SneakyThrows
     public AuthorizationPage authenticationInSystem(String organisationAuth) {
         log.info("Авторизация с " + doctorLogin + " логином" + " и " + adminpassword + " паролем");
         whenReadyTypeIn(loginInput, doctorLogin)

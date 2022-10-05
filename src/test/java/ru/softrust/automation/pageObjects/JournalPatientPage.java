@@ -1,10 +1,14 @@
 package ru.softrust.automation.pageObjects;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -15,12 +19,27 @@ public class JournalPatientPage extends BasePage {
     @FindBy(xpath = "//div[@class = 'patient-journal-header']/h1")
     private WebElement baseHeader;
 
+    @FindBy(xpath = "//div[contains(@class, 'statistic-header')]")
+    private List<WebElement> statisticHeader;
+
     public JournalPatientPage() {
     }
 
     public JournalPatientPage whenOpen() {
         isLoaded();
         PageFactory.initElements(driver, this);
+        return this;
+    }
+
+    @SneakyThrows
+    public JournalPatientPage smartPageLoadAwaitJournalPatientPage() {
+        int count = 0;
+        do {
+            count++;
+            Thread.sleep(1000);
+            PageFactory.initElements(driver, this);
+        } while (statisticHeader.size() == 0 && count < timeout);
+        assertTrue(statisticHeader.size() > 0);
         return this;
     }
 

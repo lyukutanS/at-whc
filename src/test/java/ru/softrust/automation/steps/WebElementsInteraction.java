@@ -65,7 +65,7 @@ public class WebElementsInteraction {
                 headerPage.whenOpen().checkBreadCrumbs(item);
                 break;
             case "Журнал пациентов":
-                journalPatientPage.whenOpen().checkMoveJournalPatientPage(item);
+                journalPatientPage.whenOpen().smartPageLoadAwaitJournalPatientPage().checkMoveJournalPatientPage(item);
                 headerPage.whenOpen().checkBreadCrumbs(item);
                 break;
         }
@@ -74,5 +74,11 @@ public class WebElementsInteraction {
     @И("^нажимаем на логотип SofTrust$")
     public void clickLogoApp() {
         headerPage.whenOpen().clickLogo();
+    }
+
+    @И("устанавливаем фильтр по полю Статус со значением {string}")
+    public void setFilterStatus(String status) {
+        renewalOfAppointmentPage.setFilterStatus(status)
+        .сheckMainFilterStatus(status);
     }
 }

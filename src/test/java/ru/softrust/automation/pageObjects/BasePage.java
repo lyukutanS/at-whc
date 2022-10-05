@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -52,7 +53,6 @@ public class BasePage {
         return new WebDriverWait(driver, timeout);
     }
 
-    @SneakyThrows
     protected void isLoaded() {
         ExpectedCondition expectedCondition = driver -> ((JavascriptExecutor) driver)
                 .executeScript("return document.readyState")
