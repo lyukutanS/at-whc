@@ -87,8 +87,11 @@ public class DriverManager {
         LogEntries logEntries = driver.manage().logs().get(LogType.BROWSER);
         StringBuilder logs = new StringBuilder();
         for (org.openqa.selenium.logging.LogEntry entry : logEntries) {
-            logs.append(new Date(entry.getTimestamp()) + " "
-                    + entry.getLevel() + " " + entry.getMessage());
+            logs.append(new Date(entry.getTimestamp()))
+                    .append(" ")
+                    .append(entry.getLevel())
+                    .append(" ")
+                    .append(entry.getMessage());
             logs.append(System.lineSeparator());
         }
         return String.valueOf(logs);

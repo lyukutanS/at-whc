@@ -85,9 +85,10 @@ public class BasePage {
     }
 
     protected BasePage checkVisibilityElementIsDisabled(WebElement element) {
-        Assert.assertTrue("Элемент '" + element.toString() + "' является доступным, но не должен!",
-                !(new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
-                        .until(ExpectedConditions.visibilityOf(element)).isEnabled()));
+        Assert.assertFalse("Элемент '" + element.toString() +
+                        "' является доступным, но не должен!",
+                new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
+                        .until(ExpectedConditions.visibilityOf(element)).isEnabled());
         return this;
     }
 
