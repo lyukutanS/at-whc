@@ -33,6 +33,6 @@ public class AllureAttachment {
     @Attachment
     public void logs() {
         Allure.addAttachment("Browser log: ", driverManager.getBrowserLogs());
-        addScreenshot(driverManager.getDriver(), "Screenshot-"+new Date());
+        addScreenshot(driverManager.getDriver(), "Screenshot-" + new Date());
     }
 }
