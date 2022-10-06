@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -154,5 +155,15 @@ public class BasePage {
         new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
                 .until(ExpectedConditions.visibilityOf(element));
         return element.getText();
+    }
+
+    @SneakyThrows
+    protected void waitElementByConditionOptions(Boolean flag){
+        int count = 0;
+        do {
+            count++;
+            Thread.sleep(1000);
+            PageFactory.initElements(driver, this);
+        } while (flag && count < timeout);
     }
 }

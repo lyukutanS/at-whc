@@ -1,16 +1,12 @@
 package ru.softrust.automation.pageObjects;
 
-import io.cucumber.java8.Pa;
-import io.cucumber.java8.Th;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -119,11 +115,7 @@ public class RenewalOfAppointmentPage extends BasePage {
     public RenewalOfAppointmentPage fullCheckFilterStatuses(String status) {
         checkVisibilityElementToBeClickable(firstGridLine);
         int count = 0;
-        do {
-            count++;
-            Thread.sleep(1000);
-            PageFactory.initElements(driver, this);
-        } while (!gridStatusFilterChecker.get(0).getText().equals(status) && count < timeout);
+        waitElementByConditionOptions(!gridStatusFilterChecker.get(0).getText().equals(status));
         if ((status.equals("Ожидает")) || (status.equals("Одобрен")) || (status.equals("Отклонен"))) {
             for (WebElement statusGrid : gridStatusFilterChecker) {
                 assertEquals("Фильтр статуса " + status + " в таблице не соответствует выбранному", statusGrid.getText(), status);
@@ -154,11 +146,7 @@ public class RenewalOfAppointmentPage extends BasePage {
     @SneakyThrows
     public RenewalOfAppointmentPage checkSizeRecordTableRenewal(String count) {
         int k = 0;
-        do {
-            k++;
-            Thread.sleep(1000);
-            PageFactory.initElements(driver, this);
-        } while (notRecordElement.size() > 0 && k < timeout);
+        waitElementByConditionOptions(notRecordElement.size() > 0);
         assertTrue("Количество строк в пагинации не равно: " + count, rowTableRenewalOfAppointment.size() <= Integer.parseInt(count));
         return this;
     }
@@ -179,10 +167,9 @@ public class RenewalOfAppointmentPage extends BasePage {
     @SneakyThrows
     public RenewalOfAppointmentPage closeRequest() {
         clickWhenReady(closeRequestButton);
-        Thread.sleep(5000);
         PageFactory.initElements(driver, this);
-        assertEquals("Элемент appointmentAddBlock присутсвует на странице", 0, appointmentAddBlockList.size());
-        assertEquals("Элемент appointmentRecipeBlock присутсвует на странице", 0, appointmentRecipeBlockList.size());
+        waitElementByConditionOptions(appointmentAddBlockList.size() != 0);
+        waitElementByConditionOptions(appointmentRecipeBlockList.size() != 0);
         return this;
     }
 }

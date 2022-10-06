@@ -33,11 +33,7 @@ public class JournalPatientPage extends BasePage {
     @SneakyThrows
     public JournalPatientPage smartPageLoadAwaitJournalPatientPage() {
         int count = 0;
-        do {
-            count++;
-            Thread.sleep(1000);
-            PageFactory.initElements(driver, this);
-        } while (statisticHeader.size() == 0 && count < timeout);
+        waitElementByConditionOptions(statisticHeader.size() == 0);
         assertTrue(statisticHeader.size() > 0);
         return this;
     }
