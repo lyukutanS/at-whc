@@ -88,15 +88,29 @@ public class WebElementsInteraction {
     @И("^открываем карточку-запрос пациента и проверяем блок-назначение и блок-рецепт$")
     public void openPatientCardAndCheckAppointmentAddAndRecipeBlocks() {
         renewalOfAppointmentPage
-                .whenOpen()
-                .checkAppointmentAddAndRecipeBlocks();
+                .whenOpen().checkAppointmentAddAndRecipeBlocks();
     }
 
     @И("^выбираем значение пагинации \"(.*)\"$")
     public void selectValuePagination(String count) {
-        renewalOfAppointmentPage
-                .whenOpen()
-                .selectValuePagination(count)
-                .checkSizeRecordTableRenewal(count);
+        renewalOfAppointmentPage.whenOpen().selectValuePagination(count).checkSizeRecordTableRenewal(count);
+    }
+
+    @И("^проверяем, что поля блока Назначение недоступны для редактирования$")
+    public void checkDisabledFieldsOfAppointmentAddBlock() {
+        renewalOfAppointmentPage.whenOpen().checkDisabledFieldsOfAppointmentAddBlock();
+    }
+
+    @И("^проверяем, что в блоке \"(.*)\" кнопка \"(.*)\" задизейблена$")
+    public void checkDisabledButtonOnBlocks(String blockName, String buttonName) {
+        renewalOfAppointmentPage.whenOpen();
+        if (blockName.equals("Рецепты") && buttonName.equals("Добавить")) {
+            renewalOfAppointmentPage.checkDisabledAddRecipeButtonOnRecipeBlock();
+        }
+    }
+
+    @И("^сворачиваем заявку$")
+    public void closeRequest() {
+        renewalOfAppointmentPage.whenOpen().closeRequest();
     }
 }

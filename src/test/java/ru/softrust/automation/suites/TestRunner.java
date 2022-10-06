@@ -8,21 +8,15 @@ import org.junit.runner.RunWith;
 
 @RunWith(Courgette.class)
 @CourgetteOptions(
-        threads = 1,
+        threads = 10,
         runLevel = CourgetteRunLevel.SCENARIO,
-        rerunFailedScenarios = false,
+        rerunFailedScenarios = true,
         showTestOutput = true,
         reportTargetDir = "reports",
-        cucumberOptions = @CucumberOptions(
-                features = "src/test/resources/features",
-                tags = {"@all"},
-                glue = {"ru.softrust.automation.steps"},
-                plugin = {
-                        "pretty",
-//                        "json:build/cucumber-report/cucumber.json",
-//                        "html:build/cucumber-report/cucumber.html",
-//                        "junit:build/cucumber-report/cucumber.xml",
-                        "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm"}
-        ))
+        cucumberOptions = @CucumberOptions(features = "src/test/resources/features", tags = {"@all"}, glue = {"ru.softrust.automation.steps"}, plugin = {"pretty",
+                //                        "json:build/cucumber-report/cucumber.json",
+                //                        "html:build/cucumber-report/cucumber.html",
+                //                        "junit:build/cucumber-report/cucumber.xml",
+                "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm"}))
 public class TestRunner {
 }

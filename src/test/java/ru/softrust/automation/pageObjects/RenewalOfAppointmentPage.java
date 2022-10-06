@@ -1,12 +1,16 @@
 package ru.softrust.automation.pageObjects;
 
+import io.cucumber.java8.Pa;
+import io.cucumber.java8.Th;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -36,8 +40,26 @@ public class RenewalOfAppointmentPage extends BasePage {
     @FindBy(xpath = "//div[@id='appointmentRecipe']")
     private WebElement appointmentRecipeBlock;
 
+    @FindBy(xpath = "//div[@id='appointmentRecipe']")
+    private List<WebElement> appointmentRecipeBlockList;
+
     @FindBy(xpath = "//div[@class='appointment-add']")
     private WebElement appointmentAddBlock;
+
+    @FindBy(xpath = "//div[@class='appointment-add']")
+    private List<WebElement> appointmentAddBlockList;
+
+    @FindBy(xpath = "//div[@id='appointmentForm']//form//input")
+    private List<WebElement> appointmentAddBlockDisabledParameters;
+
+    @FindBy(xpath = "//div[@class='appointment-add']")
+    private WebElement appointmentAddBlockDisabledFirstParameter;
+
+    @FindBy(xpath = "//div[@id='appointmentRecipe']//div[contains(@class, 'disabled-element')]")
+    private WebElement appointmentRecipeBlockDisabledAddButton;
+
+    @FindBy(xpath = "//button[contains(@class, 'blue-square-clear')]")
+    private WebElement closeRequestButton;
 
     @FindBy(xpath = "//div[contains(@class, 'mat-select-value')]/span")
     private WebElement countPaginationButton;
@@ -89,8 +111,7 @@ public class RenewalOfAppointmentPage extends BasePage {
     }
 
     public RenewalOfAppointmentPage checkMainFilterStatus(String status) {
-        assertEquals("Фильтр статуса " + status +
-                " не выбран, или указан некоррректный фильтр", mainStatusFilterChecker.getText(), status);
+        assertEquals("Фильтр статуса " + status + " не выбран, или указан некоррректный фильтр", mainStatusFilterChecker.getText(), status);
         return this;
     }
 
@@ -104,10 +125,8 @@ public class RenewalOfAppointmentPage extends BasePage {
             PageFactory.initElements(driver, this);
         } while (!gridStatusFilterChecker.get(0).getText().equals(status) && count < timeout);
         if ((status.equals("Ожидает")) || (status.equals("Одобрен")) || (status.equals("Отклонен"))) {
-            for (WebElement statusGrid :
-                    gridStatusFilterChecker) {
-                assertEquals("Фильтр статуса " + status +
-                        " в таблице не соответствует выбранному", statusGrid.getText(), status);
+            for (WebElement statusGrid : gridStatusFilterChecker) {
+                assertEquals("Фильтр статуса " + status + " в таблице не соответствует выбранному", statusGrid.getText(), status);
             }
         } else {
             throw new NullPointerException("Некорректно значение параметра Статус: " + status);
@@ -126,10 +145,7 @@ public class RenewalOfAppointmentPage extends BasePage {
     public RenewalOfAppointmentPage selectValuePagination(String count) {
         clickWhenReady(countPaginationButton);
         checkVisibilityElement(countPaginationList);
-        WebElement webElement = countPaginationList.stream()
-                .filter(f -> f.getText().equals(count))
-                .findFirst()
-                .orElse(null);
+        WebElement webElement = countPaginationList.stream().filter(f -> f.getText().equals(count)).findFirst().orElse(null);
         assertNotNull("Элемент в списке со значением " + count + " не найден", webElement);
         clickWhenReady(webElement);
         return this;
@@ -142,9 +158,31 @@ public class RenewalOfAppointmentPage extends BasePage {
             k++;
             Thread.sleep(1000);
             PageFactory.initElements(driver, this);
-        } while (notRecordElement.size() > 0  && k < timeout);
+        } while (notRecordElement.size() > 0 && k < timeout);
         assertTrue("Количество строк в пагинации не равно: " + count, rowTableRenewalOfAppointment.size() <= Integer.parseInt(count));
         return this;
     }
+
+    public RenewalOfAppointmentPage checkDisabledFieldsOfAppointmentAddBlock() {
+        checkVisibilityElementToBeClickable(appointmentAddBlockDisabledFirstParameter);
+        for (WebElement element : appointmentAddBlockDisabledParameters) {
+            assertFalse("Элемент" + element + "активен, хоть и не должен быть таковым", element.isEnabled());
+        }
+        return this;
+    }
+
+    public RenewalOfAppointmentPage checkDisabledAddRecipeButtonOnRecipeBlock() {
+        checkVisibilityElementToBeClickable(appointmentRecipeBlockDisabledAddButton);
+        return this;
+    }
+
+    @SneakyThrows
+    public RenewalOfAppointmentPage closeRequest() {
+        clickWhenReady(closeRequestButton);
+        Thread.sleep(5000);
+        PageFactory.initElements(driver, this);
+        assertEquals("Элемент appointmentAddBlock присутсвует на странице", 0, appointmentAddBlockList.size());
+        assertEquals("Элемент appointmentRecipeBlock присутсвует на странице", 0, appointmentRecipeBlockList.size());
+        return this;
+    }
 }
-////span[@class='count-rec']
