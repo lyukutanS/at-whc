@@ -1,0 +1,8 @@
+baseUrl: http://192.168.7.218/test
+journalPatientUrl: ${baseUrl}/statist/patient-journal
+loginUrl: ${baseUrl}/login
+appointmentRenewalUrl: ${baseUrl}/statist/appointment-renewal
+
+doctorLogin: Тест
+terapevtLogin: st_terapevt
+adminPassword: s123
