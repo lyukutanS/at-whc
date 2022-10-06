@@ -143,7 +143,8 @@ public class BasePage {
     }
 
     protected String getTextWhenReady(WebElement element) {
-        getWait().until(ExpectedConditions.elementToBeClickable(element));
+        new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
+                .until(ExpectedConditions.visibilityOf(element));
         return element.getText();
     }
 }

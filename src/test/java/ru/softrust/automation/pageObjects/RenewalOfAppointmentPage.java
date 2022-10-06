@@ -1,7 +1,8 @@
 package ru.softrust.automation.pageObjects;
 
+import io.cucumber.java.mn.Харин;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @Slf4j
@@ -21,8 +23,24 @@ public class RenewalOfAppointmentPage extends BasePage {
     @FindBy(xpath = "//mat-radio-button")
     private List<WebElement> statusFilterButtons;
 
-    @FindBy(xpath = "//mat-radio-button[@class='mat-radio-button mat-accent mat-radio-checked']//div[@class='mat-radio-label-content']")
+    @FindBy(xpath = "//mat-radio-button[contains(@class, 'mat-radio-checked')]")
     private WebElement mainStatusFilterChecker;
+
+    @FindBy(xpath = "//td[contains(@class, 'cdk-cell cdk-column-state')]")
+    private List<WebElement> gridStatusFilterChecker;
+
+    @FindBy(xpath = "//td[contains(@class, 'cdk-cell cdk-column-state')]")
+    private WebElement gridFirstStatusFilterChecker;
+
+    @FindBy(xpath = "//tr[contains(@class, 'mat-row')]")
+    private WebElement firstGridLine;
+
+    @FindBy(xpath = "//div[@id='appointmentRecipe']")
+    private WebElement appointmentRecipeBlock;
+
+    @FindBy(xpath = "//div[@class='appointment-add']")
+    private WebElement appointmentAddBlock;
+
 
     public RenewalOfAppointmentPage() {
     }
@@ -54,22 +72,61 @@ public class RenewalOfAppointmentPage extends BasePage {
                 clickWhenReady(statusFilterButtons.get(3));
                 break;
             default:
-                throw new NullPointerException("Некорректно значение параметра Статус");
+                throw new NullPointerException("Некорректно значение параметра Статус: "+ status);
         }
         return this;
     }
 
     public RenewalOfAppointmentPage сheckMainFilterStatus(String status) {
-        Assert.assertEquals(getTextWhenReady(mainStatusFilterChecker), status);
+        assertEquals("Фильтр статуса "+ status +
+                " не выбран, или указан некоррректный фильтр",mainStatusFilterChecker.getText(), status);
 
         return this;
     }
 
+    @SneakyThrows
     public RenewalOfAppointmentPage fullCheckFilterStatuses(String status) {
+        checkVisibilityElementToBeClickable(firstGridLine);
 
+        int count = 0;
+       if ((!gridStatusFilterChecker.get(0).getText().equals(status))
+                && count < timeout){
+            {
+                count++;
+                Thread.sleep(1000);
+                PageFactory.initElements(driver, this);
+            }
+        }
+
+        if (status.equals("Все")){
+            for (WebElement statusGrid:
+                    gridStatusFilterChecker) {
+                assertTrue("Фильтр статуса "+ status +
+                        " в таблице не соответствует выбранному",
+                        (statusGrid.getText().equals("Ожидает") ||
+                                statusGrid.getText().equals("Одобрен") ||
+                                statusGrid.getText().equals("Отклонен")));
+            }
+        }else if ((status.equals("Ожидает")) || (status.equals("Одобрен")) || (status.equals("Отклонен"))){
+            for (WebElement statusGrid:
+                    gridStatusFilterChecker) {
+                assertEquals("Фильтр статуса "+ status +
+                        " в таблице не соответствует выбранному",statusGrid.getText(), status);
+            }
+        }else {
+            throw new NullPointerException("Некорректно значение параметра Статус: "+ status);
+        }
 
         return this;
     }
 
+    public RenewalOfAppointmentPage checkAppointmentAddAndRecipeBlocks() {
+        clickWhenReady(firstGridLine);
+
+        checkVisibilityElement(appointmentAddBlock);
+        checkVisibilityElement(appointmentRecipeBlock);
+
+        return this;
+    }
 
 }

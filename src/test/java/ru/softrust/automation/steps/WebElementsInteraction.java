@@ -78,7 +78,17 @@ public class WebElementsInteraction {
 
     @И("устанавливаем фильтр по полю Статус со значением {string}")
     public void setFilterStatus(String status) {
-        renewalOfAppointmentPage.setFilterStatus(status)
-        .сheckMainFilterStatus(status);
+        renewalOfAppointmentPage
+                .whenOpen()
+                .setFilterStatus(status)
+        .сheckMainFilterStatus(status)
+        .fullCheckFilterStatuses(status);
+    }
+
+    @И("открываем карточку-запрос пациента и проверяем блок-назначение и блок-рецепт")
+    public void openPatientCardAndCheckAppointmentAddAndRecipeBlocks() {
+        renewalOfAppointmentPage
+                .whenOpen()
+                .checkAppointmentAddAndRecipeBlocks();
     }
 }
