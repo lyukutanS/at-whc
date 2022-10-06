@@ -76,6 +76,15 @@ public class BasePage {
         return this;
     }
 
+    protected BasePage checkVisibilityElement(List<WebElement> elements) {
+        elements.forEach(f -> {
+            new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
+                    .until(ExpectedConditions.visibilityOf(f));
+        });
+
+        return this;
+    }
+
     protected BasePage checkInvisibilityElement(WebElement element) {
         new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
                 .until(ExpectedConditions.invisibilityOf(element));

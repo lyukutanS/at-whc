@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @Slf4j
 @Component
@@ -40,6 +39,18 @@ public class RenewalOfAppointmentPage extends BasePage {
     @FindBy(xpath = "//div[@class='appointment-add']")
     private WebElement appointmentAddBlock;
 
+    @FindBy(xpath = "//div[contains(@class, 'mat-select-value')]/span")
+    private WebElement countPaginationButton;
+
+    @FindBy(xpath = "//span[@class = 'mat-option-text']")
+    private List<WebElement> countPaginationList;
+
+    @FindBy(xpath = "//table//tr[contains(@class, 'example-element')]")
+    private List<WebElement> rowTableRenewalOfAppointment;
+
+
+    @FindBy(xpath = "//div[@class='no-data-to-display substrate-block divide-border-bottom ng-star-inserted']")
+    private List<WebElement> notRecordElement;
 
     public RenewalOfAppointmentPage() {
     }
@@ -56,6 +67,7 @@ public class RenewalOfAppointmentPage extends BasePage {
         return this;
     }
 
+    @SneakyThrows
     public RenewalOfAppointmentPage setFilterStatus(String status) {
         switch (status) {
             case "Ожидает":
@@ -71,7 +83,7 @@ public class RenewalOfAppointmentPage extends BasePage {
                 clickWhenReady(statusFilterButtons.get(3));
                 break;
             default:
-                throw new NullPointerException("Некорректно значение параметра Статус: " + status);
+                throw new Exception("Некорректно значение параметра Статус: " + status);
         }
         return this;
     }
@@ -79,7 +91,6 @@ public class RenewalOfAppointmentPage extends BasePage {
     public RenewalOfAppointmentPage checkMainFilterStatus(String status) {
         assertEquals("Фильтр статуса " + status +
                 " не выбран, или указан некоррректный фильтр", mainStatusFilterChecker.getText(), status);
-
         return this;
     }
 
@@ -106,11 +117,34 @@ public class RenewalOfAppointmentPage extends BasePage {
 
     public RenewalOfAppointmentPage checkAppointmentAddAndRecipeBlocks() {
         clickWhenReady(firstGridLine);
-
         checkVisibilityElement(appointmentAddBlock);
         checkVisibilityElement(appointmentRecipeBlock);
-
         return this;
     }
 
+
+    public RenewalOfAppointmentPage selectValuePagination(String count) {
+        clickWhenReady(countPaginationButton);
+        checkVisibilityElement(countPaginationList);
+        WebElement webElement = countPaginationList.stream()
+                .filter(f -> f.getText().equals(count))
+                .findFirst()
+                .orElse(null);
+        assertNotNull("Элемент в списке со значением " + count + " не найден", webElement);
+        clickWhenReady(webElement);
+        return this;
+    }
+
+    @SneakyThrows
+    public RenewalOfAppointmentPage checkSizeRecordTableRenewal(String count) {
+        int k = 0;
+        do {
+            k++;
+            Thread.sleep(1000);
+            PageFactory.initElements(driver, this);
+        } while (notRecordElement.size() > 0  && k < timeout);
+        assertTrue("Количество строк в пагинации не равно: " + count, rowTableRenewalOfAppointment.size() <= Integer.parseInt(count));
+        return this;
+    }
 }
+////span[@class='count-rec']

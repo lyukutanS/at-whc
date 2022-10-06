@@ -76,7 +76,7 @@ public class WebElementsInteraction {
         headerPage.whenOpen().clickLogo();
     }
 
-    @И("устанавливаем фильтр по полю Статус со значением {string}")
+    @И("^устанавливаем фильтр по полю Статус со значением \"(.*)\"$")
     public void setFilterStatus(String status) {
         renewalOfAppointmentPage
                 .whenOpen()
@@ -85,10 +85,18 @@ public class WebElementsInteraction {
                 .fullCheckFilterStatuses(status);
     }
 
-    @И("открываем карточку-запрос пациента и проверяем блок-назначение и блок-рецепт")
+    @И("^открываем карточку-запрос пациента и проверяем блок-назначение и блок-рецепт$")
     public void openPatientCardAndCheckAppointmentAddAndRecipeBlocks() {
         renewalOfAppointmentPage
                 .whenOpen()
                 .checkAppointmentAddAndRecipeBlocks();
+    }
+
+    @И("^выбираем значение пагинации \"(.*)\"$")
+    public void selectValuePagination(String count) {
+        renewalOfAppointmentPage
+                .whenOpen()
+                .selectValuePagination(count)
+                .checkSizeRecordTableRenewal(count);
     }
 }
