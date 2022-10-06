@@ -158,7 +158,7 @@ public class BasePage {
     }
 
     @SneakyThrows
-    protected void waitElementByConditionOptions(Boolean flag){
+    protected void waitElementByConditionOptions(Boolean flag) {
         int count = 0;
         do {
             count++;
