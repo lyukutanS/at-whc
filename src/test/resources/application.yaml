@@ -3,6 +3,7 @@ journalPatientUrl: ${baseUrl}/statist/patient-journal
 loginUrl: ${baseUrl}/login
 appointmentRenewalUrl: ${baseUrl}/statist/appointment-renewal
 
+#doctorLogin: st_doctor
 doctorLogin: Тест
 terapevtLogin: st_terapevt
 adminPassword: s123
