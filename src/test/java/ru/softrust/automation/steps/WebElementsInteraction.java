@@ -81,8 +81,8 @@ public class WebElementsInteraction {
         renewalOfAppointmentPage
                 .whenOpen()
                 .setFilterStatus(status)
-        .сheckMainFilterStatus(status)
-        .fullCheckFilterStatuses(status);
+                .checkMainFilterStatus(status)
+                .fullCheckFilterStatuses(status);
     }
 
     @И("открываем карточку-запрос пациента и проверяем блок-назначение и блок-рецепт")

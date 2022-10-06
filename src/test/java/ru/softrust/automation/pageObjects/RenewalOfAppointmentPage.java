@@ -1,6 +1,5 @@
 package ru.softrust.automation.pageObjects;
 
-import io.cucumber.java.mn.Харин;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebElement;
@@ -72,14 +71,14 @@ public class RenewalOfAppointmentPage extends BasePage {
                 clickWhenReady(statusFilterButtons.get(3));
                 break;
             default:
-                throw new NullPointerException("Некорректно значение параметра Статус: "+ status);
+                throw new NullPointerException("Некорректно значение параметра Статус: " + status);
         }
         return this;
     }
 
-    public RenewalOfAppointmentPage сheckMainFilterStatus(String status) {
-        assertEquals("Фильтр статуса "+ status +
-                " не выбран, или указан некоррректный фильтр",mainStatusFilterChecker.getText(), status);
+    public RenewalOfAppointmentPage checkMainFilterStatus(String status) {
+        assertEquals("Фильтр статуса " + status +
+                " не выбран, или указан некоррректный фильтр", mainStatusFilterChecker.getText(), status);
 
         return this;
     }
@@ -87,36 +86,21 @@ public class RenewalOfAppointmentPage extends BasePage {
     @SneakyThrows
     public RenewalOfAppointmentPage fullCheckFilterStatuses(String status) {
         checkVisibilityElementToBeClickable(firstGridLine);
-
         int count = 0;
-       if ((!gridStatusFilterChecker.get(0).getText().equals(status))
-                && count < timeout){
-            {
-                count++;
-                Thread.sleep(1000);
-                PageFactory.initElements(driver, this);
-            }
-        }
-
-        if (status.equals("Все")){
-            for (WebElement statusGrid:
+        do {
+            count++;
+            Thread.sleep(1000);
+            PageFactory.initElements(driver, this);
+        } while (!gridStatusFilterChecker.get(0).getText().equals(status) && count < timeout);
+        if ((status.equals("Ожидает")) || (status.equals("Одобрен")) || (status.equals("Отклонен"))) {
+            for (WebElement statusGrid :
                     gridStatusFilterChecker) {
-                assertTrue("Фильтр статуса "+ status +
-                        " в таблице не соответствует выбранному",
-                        (statusGrid.getText().equals("Ожидает") ||
-                                statusGrid.getText().equals("Одобрен") ||
-                                statusGrid.getText().equals("Отклонен")));
+                assertEquals("Фильтр статуса " + status +
+                        " в таблице не соответствует выбранному", statusGrid.getText(), status);
             }
-        }else if ((status.equals("Ожидает")) || (status.equals("Одобрен")) || (status.equals("Отклонен"))){
-            for (WebElement statusGrid:
-                    gridStatusFilterChecker) {
-                assertEquals("Фильтр статуса "+ status +
-                        " в таблице не соответствует выбранному",statusGrid.getText(), status);
-            }
-        }else {
-            throw new NullPointerException("Некорректно значение параметра Статус: "+ status);
+        } else {
+            throw new NullPointerException("Некорректно значение параметра Статус: " + status);
         }
-
         return this;
     }
 
