@@ -81,7 +81,8 @@ public class RenewalOfAppointmentPage extends BasePage {
     }
 
     public RenewalOfAppointmentPage checkMoveRenewalOfAppointmentPage(String item) {
-        assertTrue("Заголовок страницы не соответствует ожидаемому", baseHeader.getText().equalsIgnoreCase(item));
+        assertTrue("Заголовок страницы не соответствует ожидаемому",
+                baseHeader.getText().equalsIgnoreCase(item));
         return this;
     }
 
@@ -107,7 +108,9 @@ public class RenewalOfAppointmentPage extends BasePage {
     }
 
     public RenewalOfAppointmentPage checkMainFilterStatus(String status) {
-        assertEquals("Фильтр статуса " + status + " не выбран, или указан некоррректный фильтр", mainStatusFilterChecker.getText(), status);
+        assertEquals("Фильтр статуса " + status + " не выбран, или указан некоррректный фильтр",
+                mainStatusFilterChecker.getText(),
+                status);
         return this;
     }
 
@@ -118,7 +121,9 @@ public class RenewalOfAppointmentPage extends BasePage {
         waitElementByConditionOptions(!gridStatusFilterChecker.get(0).getText().equals(status));
         if ((status.equals("Ожидает")) || (status.equals("Одобрен")) || (status.equals("Отклонен"))) {
             for (WebElement statusGrid : gridStatusFilterChecker) {
-                assertEquals("Фильтр статуса " + status + " в таблице не соответствует выбранному", statusGrid.getText(), status);
+                assertEquals("Фильтр статуса " + status + " в таблице не соответствует выбранному",
+                        statusGrid.getText(),
+                        status);
             }
         } else {
             throw new NullPointerException("Некорректно значение параметра Статус: " + status);
@@ -137,7 +142,10 @@ public class RenewalOfAppointmentPage extends BasePage {
     public RenewalOfAppointmentPage selectValuePagination(String count) {
         clickWhenReady(countPaginationButton);
         checkVisibilityElement(countPaginationList);
-        WebElement webElement = countPaginationList.stream().filter(f -> f.getText().equals(count)).findFirst().orElse(null);
+        WebElement webElement = countPaginationList.stream()
+                .filter(f -> f.getText().equals(count))
+                .findFirst()
+                .orElse(null);
         assertNotNull("Элемент в списке со значением " + count + " не найден", webElement);
         clickWhenReady(webElement);
         return this;
@@ -147,7 +155,8 @@ public class RenewalOfAppointmentPage extends BasePage {
     public RenewalOfAppointmentPage checkSizeRecordTableRenewal(String count) {
         int k = 0;
         waitElementByConditionOptions(notRecordElement.size() > 0);
-        assertTrue("Количество строк в пагинации не равно: " + count, rowTableRenewalOfAppointment.size() <= Integer.parseInt(count));
+        assertTrue("Количество строк в пагинации не равно: " + count,
+                rowTableRenewalOfAppointment.size() <= Integer.parseInt(count));
         return this;
     }
 

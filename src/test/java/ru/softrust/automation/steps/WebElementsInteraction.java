@@ -44,7 +44,8 @@ public class WebElementsInteraction {
 
     @Дано("^переходим на страницу Авторизация$")
     public void goToAuthorisationPage() {
-        authorisationPageObject.whenOpen().openAuth();
+        authorisationPageObject.whenOpen()
+                .openAuth();
     }
 
     @Когда("^авторизуемся в системе с огранизацией \"(.*)\"$")
@@ -54,32 +55,38 @@ public class WebElementsInteraction {
 
     @И("^переходим в Основное меню и выбираем пункт \"(.*)\"$")
     public void moveToMainMenu(String item) {
-        menuPage.whenOpen().chooseFromListInLeftMenu(item);
+        menuPage.whenOpen()
+                .chooseFromListInLeftMenu(item);
     }
 
     @И("^проверяем, что мы находимся на странице \"(.*)\"$")
     public void checkMovePage(String item) {
         switch (item) {
             case "Продление назначений":
-                renewalOfAppointmentPage.whenOpen().checkMoveRenewalOfAppointmentPage(item);
-                headerPage.whenOpen().checkBreadCrumbs(item);
+                renewalOfAppointmentPage.whenOpen()
+                        .checkMoveRenewalOfAppointmentPage(item);
+                headerPage.whenOpen()
+                        .checkBreadCrumbs(item);
                 break;
             case "Журнал пациентов":
-                journalPatientPage.whenOpen().smartPageLoadAwaitJournalPatientPage().checkMoveJournalPatientPage(item);
-                headerPage.whenOpen().checkBreadCrumbs(item);
+                journalPatientPage.whenOpen()
+                        .smartPageLoadAwaitJournalPatientPage()
+                        .checkMoveJournalPatientPage(item);
+                headerPage.whenOpen()
+                        .checkBreadCrumbs(item);
                 break;
         }
     }
 
     @И("^нажимаем на логотип SofTrust$")
     public void clickLogoApp() {
-        headerPage.whenOpen().clickLogo();
+        headerPage.whenOpen()
+                .clickLogo();
     }
 
     @И("^устанавливаем фильтр по полю Статус со значением \"(.*)\"$")
     public void setFilterStatus(String status) {
-        renewalOfAppointmentPage
-                .whenOpen()
+        renewalOfAppointmentPage.whenOpen()
                 .setFilterStatus(status)
                 .checkMainFilterStatus(status)
                 .fullCheckFilterStatuses(status);
@@ -87,18 +94,21 @@ public class WebElementsInteraction {
 
     @И("^открываем карточку-запрос пациента и проверяем блок-назначение и блок-рецепт$")
     public void openPatientCardAndCheckAppointmentAddAndRecipeBlocks() {
-        renewalOfAppointmentPage
-                .whenOpen().checkAppointmentAddAndRecipeBlocks();
+        renewalOfAppointmentPage.whenOpen()
+                .checkAppointmentAddAndRecipeBlocks();
     }
 
     @И("^выбираем значение пагинации \"(.*)\"$")
     public void selectValuePagination(String count) {
-        renewalOfAppointmentPage.whenOpen().selectValuePagination(count).checkSizeRecordTableRenewal(count);
+        renewalOfAppointmentPage.whenOpen()
+                .selectValuePagination(count)
+                .checkSizeRecordTableRenewal(count);
     }
 
     @И("^проверяем, что поля блока Назначение недоступны для редактирования$")
     public void checkDisabledFieldsOfAppointmentAddBlock() {
-        renewalOfAppointmentPage.whenOpen().checkDisabledFieldsOfAppointmentAddBlock();
+        renewalOfAppointmentPage.whenOpen()
+                .checkDisabledFieldsOfAppointmentAddBlock();
     }
 
     @И("^проверяем, что в блоке \"(.*)\" кнопка \"(.*)\" задизейблена$")
@@ -111,6 +121,7 @@ public class WebElementsInteraction {
 
     @И("^сворачиваем заявку$")
     public void closeRequest() {
-        renewalOfAppointmentPage.whenOpen().closeRequest();
+        renewalOfAppointmentPage.whenOpen()
+                .closeRequest();
     }
 }

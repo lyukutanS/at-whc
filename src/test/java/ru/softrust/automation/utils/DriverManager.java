@@ -63,7 +63,9 @@ public class DriverManager {
             }
         }
         log.info("Открытие браузера " + browser);
-        driver.manage().window().maximize();
+        driver.manage()
+                .window()
+                .maximize();
         return driver;
     }
 

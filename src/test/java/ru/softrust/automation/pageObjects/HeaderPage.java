@@ -28,7 +28,8 @@ public class HeaderPage extends BasePage {
     }
 
     public HeaderPage checkBreadCrumbs(String item) {
-        assertTrue("Модуль " + item + " не отображается в хэдере (хлебные крошки = " + breadCrumbs.getText() + ")", breadCrumbs.getText().contains(item));
+        assertTrue("Модуль " + item + " не отображается в хэдере (хлебные крошки = " + breadCrumbs.getText() + ")",
+                breadCrumbs.getText().contains(item));
         return this;
     }
 

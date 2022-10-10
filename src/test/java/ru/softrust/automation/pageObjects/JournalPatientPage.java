@@ -39,7 +39,8 @@ public class JournalPatientPage extends BasePage {
     }
 
     public JournalPatientPage checkMoveJournalPatientPage(String item) {
-        assertTrue("Заголовок страницы не соответствует ожидаемому", baseHeader.getText().equalsIgnoreCase(item));
+        assertTrue("Заголовок страницы не соответствует ожидаемому",
+                baseHeader.getText().equalsIgnoreCase(item));
         return this;
     }
 }
