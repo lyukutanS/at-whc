@@ -75,6 +75,8 @@ public class WebElementsInteraction {
                 headerPage.whenOpen()
                         .checkBreadCrumbs(item);
                 break;
+            default:
+                throw new NullPointerException("Переданный пункт меню - не существует");
         }
     }
 
