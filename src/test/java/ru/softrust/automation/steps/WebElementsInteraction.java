@@ -14,6 +14,8 @@ import ru.softrust.automation.pageObjects.*;
 import ru.softrust.automation.utils.AllureAttachment;
 import ru.softrust.automation.utils.DriverManager;
 
+import static com.codeborne.selenide.Selenide.*;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @CucumberContextConfiguration
@@ -44,6 +46,7 @@ public class WebElementsInteraction {
 
     @Дано("^переходим на страницу Авторизация$")
     public void goToAuthorisationPage() {
+        open("/", AuthorizationPage.class);
         authorisationPageObject.whenOpen()
                 .openAuth();
     }

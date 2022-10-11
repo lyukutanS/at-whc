@@ -42,7 +42,7 @@ public class DriverManager {
                 case "chrome":
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions chromeOptions = new ChromeOptions();
-                    chromeOptions.addArguments("--headless", "--window-size=1920,1200");
+//                    chromeOptions.addArguments("--headless", "--window-size=1920,1200");
                     chromeOptions.setCapability("acceptInsecureCerts", true);
                     driver = new ChromeDriver(chromeOptions);
                     break;

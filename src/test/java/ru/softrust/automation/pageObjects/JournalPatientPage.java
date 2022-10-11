@@ -1,8 +1,8 @@
 package ru.softrust.automation.pageObjects;
 
+import com.codeborne.selenide.SelenideElement;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.stereotype.Component;
@@ -16,17 +16,17 @@ import static org.junit.Assert.assertTrue;
 public class JournalPatientPage extends BasePage {
 
     @FindBy(xpath = "//div[@class = 'patient-journal-header']/h1")
-    private WebElement baseHeader;
+    private SelenideElement baseHeader;
 
     @FindBy(xpath = "//div[contains(@class, 'statistic-header')]")
-    private List<WebElement> statisticHeader;
+    private List<SelenideElement> statisticHeader;
 
     public JournalPatientPage() {
     }
 
     public JournalPatientPage whenOpen() {
         isLoaded();
-        PageFactory.initElements(driver, this);
+        //PageFactory.initElements(driver, this);
         return this;
     }
 

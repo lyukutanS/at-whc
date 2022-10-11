@@ -1,35 +1,38 @@
 package ru.softrust.automation.pageObjects;
 
+import com.codeborne.selenide.SelenideElement;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.stereotype.Component;
+
+import static com.codeborne.selenide.Selenide.$;
 
 @Slf4j
 @Component
 public class AuthorizationPage extends BasePage {
 
     @FindBy(name = "organisationInput")
-    private WebElement organisation;
+    private SelenideElement organisation;
 
     @FindBy(xpath = "//span[@class = 'mat-option-text']")
-    private WebElement overlay;
+    private SelenideElement overlay;
 
     @FindBy(name = "loginInput")
-    private WebElement loginInput;
+    private SelenideElement loginInput;
 
     @FindBy(name = "passwordInput")
-    private WebElement passwordInput;
+    private SelenideElement passwordInput;
 
     @FindBy(className = "login-form__button")
-    private WebElement loginButton;
+    private SelenideElement loginButton;
 
     @FindBy(className = "version-info-number")
-    private WebElement versionNumber;
+    private SelenideElement versionNumber;
 
     @FindBy(className = "authorization-header")
-    private WebElement authHeader;
+    private SelenideElement authHeader;
 
     public AuthorizationPage() {
 
@@ -37,7 +40,7 @@ public class AuthorizationPage extends BasePage {
 
     public AuthorizationPage whenOpen() {
         isLoaded();
-        PageFactory.initElements(driver, this);
+        //PageFactory.initElements(driver, this);
         return this;
     }
 

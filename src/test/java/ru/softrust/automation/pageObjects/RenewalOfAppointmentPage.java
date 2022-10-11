@@ -1,8 +1,8 @@
 package ru.softrust.automation.pageObjects;
 
+import com.codeborne.selenide.SelenideElement;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.stereotype.Component;
@@ -16,59 +16,59 @@ import static org.junit.Assert.*;
 public class RenewalOfAppointmentPage extends BasePage {
 
     @FindBy(xpath = "//h1[@class = 'base-header']")
-    private WebElement baseHeader;
+    private SelenideElement baseHeader;
 
     @FindBy(xpath = "//mat-radio-button")
-    private List<WebElement> statusFilterButtons;
+    private List<SelenideElement> statusFilterButtons;
 
     @FindBy(xpath = "//mat-radio-button[contains(@class, 'mat-radio-checked')]")
-    private WebElement mainStatusFilterChecker;
+    private SelenideElement mainStatusFilterChecker;
 
     @FindBy(xpath = "//td[contains(@class, 'cdk-cell cdk-column-state')]")
-    private List<WebElement> gridStatusFilterChecker;
+    private List<SelenideElement> gridStatusFilterChecker;
 
     @FindBy(xpath = "//td[contains(@class, 'cdk-cell cdk-column-state')]")
-    private WebElement gridFirstStatusFilterChecker;
+    private SelenideElement gridFirstStatusFilterChecker;
 
     @FindBy(xpath = "//tr[contains(@class, 'mat-row')]")
-    private WebElement firstGridLine;
+    private SelenideElement firstGridLine;
 
     @FindBy(xpath = "//div[@id='appointmentRecipe']")
-    private WebElement appointmentRecipeBlock;
+    private SelenideElement appointmentRecipeBlock;
 
     @FindBy(xpath = "//div[@id='appointmentRecipe']")
-    private List<WebElement> appointmentRecipeBlockList;
+    private List<SelenideElement> appointmentRecipeBlockList;
 
     @FindBy(xpath = "//div[@class='appointment-add']")
-    private WebElement appointmentAddBlock;
+    private SelenideElement appointmentAddBlock;
 
     @FindBy(xpath = "//div[@class='appointment-add']")
-    private List<WebElement> appointmentAddBlockList;
+    private List<SelenideElement> appointmentAddBlockList;
 
     @FindBy(xpath = "//div[@id='appointmentForm']//form//input")
-    private List<WebElement> appointmentAddBlockDisabledParameters;
+    private List<SelenideElement> appointmentAddBlockDisabledParameters;
 
     @FindBy(xpath = "//div[@class='appointment-add']")
-    private WebElement appointmentAddBlockDisabledFirstParameter;
+    private SelenideElement appointmentAddBlockDisabledFirstParameter;
 
     @FindBy(xpath = "//div[@id='appointmentRecipe']//div[contains(@class, 'disabled-element')]")
-    private WebElement appointmentRecipeBlockDisabledAddButton;
+    private SelenideElement appointmentRecipeBlockDisabledAddButton;
 
     @FindBy(xpath = "//button[contains(@class, 'blue-square-clear')]")
-    private WebElement closeRequestButton;
+    private SelenideElement closeRequestButton;
 
     @FindBy(xpath = "//div[contains(@class, 'mat-select-value')]/span")
-    private WebElement countPaginationButton;
+    private SelenideElement countPaginationButton;
 
     @FindBy(xpath = "//span[@class = 'mat-option-text']")
-    private List<WebElement> countPaginationList;
+    private List<SelenideElement> countPaginationList;
 
     @FindBy(xpath = "//table//tr[contains(@class, 'example-element')]")
-    private List<WebElement> rowTableRenewalOfAppointment;
+    private List<SelenideElement> rowTableRenewalOfAppointment;
 
 
     @FindBy(xpath = "//div[@class='no-data-to-display substrate-block divide-border-bottom ng-star-inserted']")
-    private List<WebElement> notRecordElement;
+    private List<SelenideElement> notRecordElement;
 
     public RenewalOfAppointmentPage() {
     }
@@ -76,7 +76,7 @@ public class RenewalOfAppointmentPage extends BasePage {
     public RenewalOfAppointmentPage whenOpen() {
         isLoaded();
         shouldLocate(appointmentRenewalUrl);
-        PageFactory.initElements(driver, this);
+        //PageFactory.initElements(driver, this);
         return this;
     }
 
@@ -120,7 +120,7 @@ public class RenewalOfAppointmentPage extends BasePage {
         int count = 0;
         waitElementByConditionOptions(!gridStatusFilterChecker.get(0).getText().equals(status));
         if ((status.equals("Ожидает")) || (status.equals("Одобрен")) || (status.equals("Отклонен"))) {
-            for (WebElement statusGrid : gridStatusFilterChecker) {
+            for (SelenideElement statusGrid : gridStatusFilterChecker) {
                 assertEquals("Фильтр статуса " + status + " в таблице не соответствует выбранному",
                         statusGrid.getText(),
                         status);
@@ -142,12 +142,12 @@ public class RenewalOfAppointmentPage extends BasePage {
     public RenewalOfAppointmentPage selectValuePagination(String count) {
         clickWhenReady(countPaginationButton);
         checkVisibilityElement(countPaginationList);
-        WebElement webElement = countPaginationList.stream()
+        SelenideElement SelenideElement = countPaginationList.stream()
                 .filter(f -> f.getText().equals(count))
                 .findFirst()
                 .orElse(null);
-        assertNotNull("Элемент в списке со значением " + count + " не найден", webElement);
-        clickWhenReady(webElement);
+        assertNotNull("Элемент в списке со значением " + count + " не найден", SelenideElement);
+        clickWhenReady(SelenideElement);
         return this;
     }
 
@@ -162,7 +162,7 @@ public class RenewalOfAppointmentPage extends BasePage {
 
     public RenewalOfAppointmentPage checkDisabledFieldsOfAppointmentAddBlock() {
         checkVisibilityElementToBeClickable(appointmentAddBlockDisabledFirstParameter);
-        for (WebElement element : appointmentAddBlockDisabledParameters) {
+        for (SelenideElement element : appointmentAddBlockDisabledParameters) {
             assertFalse("Элемент" + element + "активен, хоть и не должен быть таковым", element.isEnabled());
         }
         return this;
@@ -176,7 +176,7 @@ public class RenewalOfAppointmentPage extends BasePage {
     @SneakyThrows
     public RenewalOfAppointmentPage closeRequest() {
         clickWhenReady(closeRequestButton);
-        PageFactory.initElements(driver, this);
+        //PageFactory.initElements(driver, this);
         waitElementByConditionOptions(appointmentAddBlockList.size() != 0);
         waitElementByConditionOptions(appointmentRecipeBlockList.size() != 0);
         return this;

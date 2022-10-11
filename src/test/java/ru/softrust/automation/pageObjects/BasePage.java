@@ -1,5 +1,6 @@
 package ru.softrust.automation.pageObjects;
 
+import com.codeborne.selenide.SelenideElement;
 import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.openqa.selenium.*;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 
 import java.time.Duration;
 import java.util.List;
@@ -50,7 +52,7 @@ public class BasePage {
     }
 
     protected WebDriverWait getWait() {
-        return new WebDriverWait(driver, timeout);
+        return new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds());
     }
 
     protected void isLoaded() {
@@ -71,13 +73,13 @@ public class BasePage {
         return this;
     }
 
-    protected BasePage checkVisibilityElement(WebElement element) {
+    protected BasePage checkVisibilityElement(SelenideElement element) {
         new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
                 .until(ExpectedConditions.visibilityOf(element));
         return this;
     }
 
-    protected BasePage checkVisibilityElement(List<WebElement> elements) {
+    protected BasePage checkVisibilityElement(List<SelenideElement> elements) {
         elements.forEach(f -> {
             new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
                     .until(ExpectedConditions.visibilityOf(f));
@@ -86,13 +88,13 @@ public class BasePage {
         return this;
     }
 
-    protected BasePage checkInvisibilityElement(WebElement element) {
+    protected BasePage checkInvisibilityElement(SelenideElement element) {
         new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
                 .until(ExpectedConditions.invisibilityOf(element));
         return this;
     }
 
-    protected BasePage checkVisibilityElementToBeClickable(WebElement element) {
+    protected BasePage checkVisibilityElementToBeClickable(SelenideElement element) {
         new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
                 .until(ExpectedConditions.visibilityOf(element));
         new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
@@ -100,7 +102,7 @@ public class BasePage {
         return this;
     }
 
-    protected BasePage checkVisibilityElementIsDisabled(WebElement element) {
+    protected BasePage checkVisibilityElementIsDisabled(SelenideElement element) {
         Assert.assertFalse("Элемент '" + element.toString() +
                         "' является доступным, но не должен!",
                 new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
@@ -108,50 +110,50 @@ public class BasePage {
         return this;
     }
 
-    protected BasePage moveTo(WebElement element) {
+    protected BasePage moveTo(SelenideElement element) {
         getWait().until(ExpectedConditions.elementToBeClickable(element));
         actionBuilder().moveToElement(element).build().perform();
         return this;
     }
 
-    protected BasePage clickWhenReady(WebElement element) {
+    protected BasePage clickWhenReady(SelenideElement element) {
         getWait().until(ExpectedConditions.elementToBeClickable(element));
         element.click();
         return this;
     }
 
-    protected BasePage clickWhenVisibility(WebElement element) {
+    protected BasePage clickWhenVisibility(SelenideElement element) {
         getWait().until(ExpectedConditions.visibilityOf(element));
         element.click();
         return this;
     }
 
-    protected BasePage doubleClickWhenReady(WebElement element) {
+    protected BasePage doubleClickWhenReady(SelenideElement element) {
         getWait().until(ExpectedConditions.elementToBeClickable(element));
         actionBuilder().doubleClick(element).build().perform();
         return this;
     }
 
-    protected List<WebElement> getElementsWhenReady(By locator) {
+    protected List<SelenideElement> getElementsWhenReady(By locator) {
         getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
         return driver.findElements(locator);
     }
 
-    protected BasePage whenReadyTypeIn(WebElement element, String text) {
+    protected BasePage whenReadyTypeIn(SelenideElement element, String text) {
         getWait().until(ExpectedConditions.elementToBeClickable(element));
         element.sendKeys(text);
         return this;
     }
 
     @SneakyThrows
-    protected BasePage typeAndSelectChooseList(WebElement input, String text, WebElement choose) {
+    protected BasePage typeAndSelectChooseList(SelenideElement input, String text, SelenideElement choose) {
         getWait().until(ExpectedConditions.elementToBeClickable(input));
         input.sendKeys(text);
         clickWhenVisibility(choose);
         return this;
     }
 
-    protected String getTextWhenReady(WebElement element) {
+    protected String getTextWhenReady(SelenideElement element) {
         new WebDriverWait(driver, Duration.ofSeconds(timeout).getSeconds())
                 .until(ExpectedConditions.visibilityOf(element));
         return element.getText();
@@ -163,7 +165,7 @@ public class BasePage {
         do {
             count++;
             Thread.sleep(1000);
-            PageFactory.initElements(driver, this);
+            //PageFactory.initElements(driver, this);
         } while (flag && count < timeout);
     }
 }
