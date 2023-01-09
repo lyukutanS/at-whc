@@ -21,14 +21,6 @@ public class MenuPage extends BasePage {
     @FindBy(xpath = "//div[contains(@id, 'ui-id')]/ul/li")
     private List<SelenideElement> leftMenuItemList;
 
-    public MenuPage() {
-    }
-
-    public MenuPage whenOpen() {
-        isLoaded();
-        //PageFactory.initElements(driver, this);
-        return this;
-    }
 
     public MenuPage chooseFromListInLeftMenu(String item) {
         isLoaded();

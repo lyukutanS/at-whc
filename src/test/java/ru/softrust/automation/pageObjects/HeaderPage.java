@@ -18,14 +18,6 @@ public class HeaderPage extends BasePage {
     @FindBy(xpath = "//img[contains(@class, 'logo')]")
     private SelenideElement logoSofTrust;
 
-    public HeaderPage() {
-    }
-
-    public HeaderPage whenOpen() {
-        isLoaded();
-        //PageFactory.initElements(driver, this);
-        return this;
-    }
 
     public HeaderPage checkBreadCrumbs(String item) {
         assertTrue("Модуль " + item + " не отображается в хэдере (хлебные крошки = " + breadCrumbs.getText() + ")",

@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.springframework.stereotype.Component;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 
 @Slf4j
 @Component
@@ -34,19 +35,10 @@ public class AuthorizationPage extends BasePage {
     @FindBy(className = "authorization-header")
     private SelenideElement authHeader;
 
-    public AuthorizationPage() {
 
-    }
-
-    public AuthorizationPage whenOpen() {
-        isLoaded();
-        //PageFactory.initElements(driver, this);
-        return this;
-    }
-
-    public AuthorizationPage openAuth() {
-        driver.get(loginUrl);
-        return whenOpen();
+    public static AuthorizationPage openAuth() {
+        open(loginUrl);
+        return new AuthorizationPage();
     }
 
     public AuthorizationPage authenticationInSystem(String organisationAuth) {

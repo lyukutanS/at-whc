@@ -24,11 +24,6 @@ public class JournalPatientPage extends BasePage {
     public JournalPatientPage() {
     }
 
-    public JournalPatientPage whenOpen() {
-        isLoaded();
-        //PageFactory.initElements(driver, this);
-        return this;
-    }
 
     @SneakyThrows
     public JournalPatientPage smartPageLoadAwaitJournalPatientPage() {

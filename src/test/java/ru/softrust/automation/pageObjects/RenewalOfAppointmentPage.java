@@ -70,15 +70,6 @@ public class RenewalOfAppointmentPage extends BasePage {
     @FindBy(xpath = "//div[@class='no-data-to-display substrate-block divide-border-bottom ng-star-inserted']")
     private List<SelenideElement> notRecordElement;
 
-    public RenewalOfAppointmentPage() {
-    }
-
-    public RenewalOfAppointmentPage whenOpen() {
-        isLoaded();
-        shouldLocate(appointmentRenewalUrl);
-        //PageFactory.initElements(driver, this);
-        return this;
-    }
 
     public RenewalOfAppointmentPage checkMoveRenewalOfAppointmentPage(String item) {
         assertTrue("Заголовок страницы не соответствует ожидаемому",
@@ -176,7 +167,6 @@ public class RenewalOfAppointmentPage extends BasePage {
     @SneakyThrows
     public RenewalOfAppointmentPage closeRequest() {
         clickWhenReady(closeRequestButton);
-        //PageFactory.initElements(driver, this);
         waitElementByConditionOptions(appointmentAddBlockList.size() != 0);
         waitElementByConditionOptions(appointmentRecipeBlockList.size() != 0);
         return this;
